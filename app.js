@@ -1,15 +1,93 @@
-var uniqueQuotes = [];
+var allQuotes = [];
+let allEpisodes;
+let allBBEpisodes = [];
+let noSeries = new Set();
+let QuoteParent = document.getElementById("QuoteCards");
+let seasonParent = document.getElementById("seasonCards");
+let dropDown = document.getElementById("seasonDropdown");
+let currSeason = [];
+
+const filterEpisode =  s =>{
+    currSeason.length = 0;
+    const season = s.target.value;
+    
+    if(season !== "-1"){
+        allBBEpisodes.forEach(ep=>{
+            if(ep.season === season){
+                currSeason.push(ep);
+            }
+        })
+    }
+    console.log(currSeason);
+    currSeason.forEach(season =>{
+        let newCard = document.createElement("div");
+        newCard.className = "card";
+        
+        let title =  document.createElement("p")
+        let episode =  document.createElement("p")
+        let airDate =  document.createElement("p")
+
+        title.innerHTML = season.title;
+        episode.innerHTML = season.episode;
+        airDate.innerHTML = season.air_date;
+
+        title.className = "episode";
+        episode.className = "episode";
+        airDate.className = "episode";
+
+        newCard.appendChild(title);
+        newCard.appendChild(episode);
+        newCard.appendChild(airDate);
+        
+        seasonParent.append(newCard);
+        console.log(season.title);
+        console.log(season.episode);
+        console.log(season.air_date);
+    });
+}
+dropDown.addEventListener('change', filterEpisode);
+
+const populateDropDown = _=>{
+    allEpisodes.forEach(ep=>{
+        if(ep.series === 'Breaking Bad'){
+            allBBEpisodes.push(ep);
+            noSeries.add(ep.season.trim());
+        }
+    })
+    console.log("BB", allBBEpisodes);
+    console.log("NS", noSeries);
+    [...noSeries].forEach(s =>{
+        console.log(s);
+        let option = document.createElement("option");
+        option.value = s;
+        option.innerHTML = s;
+        option.class = "option";
+        dropDown.appendChild(option);
+    });
+}
+
 const populateQuotes =  _=>{
     fetch("https://www.breakingbadapi.com/api/quotes")
         .then(res => res.json())
-        .then(data => uniqueQuotes.push(data))
+        .then(data => allQuotes.push(data))
         .catch(err => console.error(err));
 }
-
 populateQuotes();
 
+const populateSeasons= async _=>{
+    await fetch("https://www.breakingbadapi.com/api/episodes")
+    .then(res => res.json())
+    .then(data => allEpisodes = data)
+    .then(_=>populateDropDown())
+    .catch(err => console.error(err));
+
+    console.log(allEpisodes);
+}
+populateSeasons();
+
+
+
 document.getElementById("numberOfQuotesBtn").addEventListener("click",async _=>{
-    let QuoteParent = document.getElementById("QuoteCards");
     QuoteParent.replaceChildren();
 
     let numberOfQuotes = parseInt(document.getElementById("numberOfQuotes").value);
@@ -20,7 +98,7 @@ document.getElementById("numberOfQuotesBtn").addEventListener("click",async _=>{
         return;
     }
 
-    const shuffledQuotes = uniqueQuotes[0].sort(() => 0.5 - Math.random());
+    const shuffledQuotes = allQuotes[0].sort(() => 0.5 - Math.random());
     let randomSelectedQuotes = shuffledQuotes.slice(0, numberOfQuotes);
 
     console.log("random", randomSelectedQuotes);

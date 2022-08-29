@@ -9,3 +9,23 @@
 .center{
     @apply flex flex-col items-center justify-around;
 }
+
+.customScroll::-webkit-scrollbar {
+    width: 5px;
+}
+   
+.customScroll::-webkit-scrollbar-track {
+    background: #D2D79F;
+}
+   
+.customScroll::-webkit-scrollbar-thumb {
+    background: #42855B; 
+}
+
+.cardContainer{
+    @apply customScroll shadow-xl flex items-start max-h-96 mt-4 overflow-auto flex-wrap w-3/5 mr-auto ml-auto;
+}
+
+.episode{
+    @apply text-center mt-4;
+}
