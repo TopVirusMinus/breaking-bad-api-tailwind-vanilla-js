@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card{
+    @apply bg-[#483838] w-80 m-5 h-40 shadow-lg;
+}
+
+.center{
+    @apply flex flex-col items-center justify-around;
+}
