@@ -621,18 +621,26 @@ video {
   display: contents;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .w-40 {
   width: 10rem;
 }
 
-.w-32 {
-  width: 8rem;
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-fit {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.w-2 {
+  width: 0.5rem;
 }
 
 .transform {
@@ -660,6 +668,10 @@ video {
 .bg-red-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .font-mono {
@@ -741,6 +753,12 @@ video {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+}
+
+.center-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .customScroll::-webkit-scrollbar {
