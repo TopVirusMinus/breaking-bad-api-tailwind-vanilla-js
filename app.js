@@ -2,24 +2,18 @@ var allQuotes = [];
 let allEpisodes;
 let allBBEpisodes = [];
 let noSeries = new Set();
+
 let QuoteParent = document.getElementById("QuoteCards");
 let seasonParent = document.getElementById("seasonCards");
 let dropDown = document.getElementById("seasonDropdown");
-let currSeason = [];
+let searchEpisode = document.getElementById("searchEpisode");
 
-const filterEpisode =  s =>{
-    currSeason.length = 0;
-    const season = s.target.value;
-    
-    if(season !== "-1"){
-        allBBEpisodes.forEach(ep=>{
-            if(ep.season === season){
-                currSeason.push(ep);
-            }
-        })
-    }
-    console.log(currSeason);
-    currSeason.forEach(season =>{
+let currSeason = [];
+let oldCurrSeason = [];
+
+const renderCurrSeason = curr =>{
+    console.log("OLD", oldCurrSeason);
+    curr.forEach(season =>{
         let newCard = document.createElement("div");
         newCard.className = "card";
         
@@ -35,8 +29,8 @@ const filterEpisode =  s =>{
         episode.className = "episode";
         airDate.className = "episode";
 
-        newCard.appendChild(title);
         newCard.appendChild(episode);
+        newCard.appendChild(title);
         newCard.appendChild(airDate);
         
         seasonParent.append(newCard);
@@ -44,6 +38,42 @@ const filterEpisode =  s =>{
         console.log(season.episode);
         console.log(season.air_date);
     });
+    console.log("------");
+}
+
+searchEpisode.addEventListener("keyup", e=>{
+    let query = e.target.value;
+    currSeason.length = 0;
+    seasonParent.replaceChildren();
+
+    if(query){
+        currSeason = [...oldCurrSeason].filter(curr=>{
+            return curr.title.toLowerCase().includes(query.toLowerCase())
+        });
+        renderCurrSeason(currSeason);
+    }
+    else{
+        renderCurrSeason(oldCurrSeason);
+    }
+
+    console.log(query);
+})
+
+const filterEpisode =  s =>{
+    currSeason.length = 0;
+    seasonParent.replaceChildren();
+    const season = s.target.value;
+    
+    if(season !== "-1"){
+        allBBEpisodes.forEach(ep=>{
+            if(ep.season === season){
+                currSeason.push(ep);
+            }
+        })
+        oldCurrSeason = [...currSeason];
+    }
+    console.log(currSeason);
+    renderCurrSeason(currSeason);
 }
 dropDown.addEventListener('change', filterEpisode);
 
