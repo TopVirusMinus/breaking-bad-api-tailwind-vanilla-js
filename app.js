@@ -7,12 +7,13 @@ let QuoteParent = document.getElementById("QuoteCards");
 let seasonParent = document.getElementById("seasonCards");
 let dropDown = document.getElementById("seasonDropdown");
 let searchEpisode = document.getElementById("searchEpisode");
+let showAll = document.getElementById("showAll");
+
 
 let currSeason = [];
 let oldCurrSeason = [];
 
-const renderCurrSeason = curr =>{
-    console.log("OLD", oldCurrSeason);
+const renderCurrSeason = (curr, isFull = false) =>{
     curr.forEach(season =>{
         let newCard = document.createElement("div");
         newCard.className = "card";
@@ -22,7 +23,7 @@ const renderCurrSeason = curr =>{
         let airDate =  document.createElement("p")
 
         title.innerHTML = season.title;
-        episode.innerHTML = season.episode;
+        isFull ? episode.innerHTML = season.episode_id : episode.innerHTML = season.episode;
         airDate.innerHTML = season.air_date;
 
         title.className = "episode";
@@ -116,6 +117,11 @@ const populateSeasons= async _=>{
 populateSeasons();
 
 
+
+showAll.addEventListener("click", _=>{
+    console.log("Show All");
+    renderCurrSeason(allBBEpisodes, true);
+});
 
 document.getElementById("numberOfQuotesBtn").addEventListener("click",async _=>{
     QuoteParent.replaceChildren();

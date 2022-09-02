@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+    background-color: #222831;
+}
+
 .card{
-    @apply bg-[#483838] w-80 m-5 h-40 shadow-lg;
+    @apply bg-[#EEEEEE] p-5 text-center w-80 grow-0 shrink-0 m-5 h-40 shadow-lg;
 }
 
 .center{
@@ -19,17 +23,37 @@
 }
    
 .customScroll::-webkit-scrollbar-track {
-    background: #D2D79F;
+    background: #222831;
 }
    
 .customScroll::-webkit-scrollbar-thumb {
-    background: #42855B; 
+    background: #393E46; 
 }
 
-.cardContainer{
-    @apply customScroll shadow-xl flex items-start max-h-96  mt-4 overflow-auto flex-wrap w-3/5 mr-auto ml-auto;
+.customScroll::-webkit-scrollbar:horizontal {
+    height: 5px;
+}
+   
+.customScroll::-webkit-scrollbar-track:horizontal {
+    background: #222831;
+}
+   
+.customScroll::-webkit-scrollbar-thumb:horizontal{
+    background: #393E46; 
+}
+
+.cardContainer-h{
+    @apply customScroll shadow-xl mb-5 items-stretch flex-row flex-nowrap max-h-52 w-3/5 mt-4 overflow-x-auto overflow-y-hidden flex;
+}
+
+.cardContainer-v{
+    @apply customScroll shadow-xl flex items-start max-h-96 mt-4 overflow-auto flex-wrap w-3/5 mr-auto ml-auto mb-10;
 }
 
 .episode{
     @apply text-center mt-4;
+}
+
+.mrg{
+    visibility: hidden;
 }
